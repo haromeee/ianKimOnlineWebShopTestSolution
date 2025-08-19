@@ -2,9 +2,27 @@
 
 This is Ian Kim's Complete App Automation Suite.
 
-The suite uses Playwright Test (TypeScript) with Gherkin BDD via playwright-bdd. Feature files are converted to Playwright specs with bddgen, so we keep BDD readability and still get Playwright’s fixtures, tracing, retries, reporters and projects.
+Tests were built on the online test webshop: **'https://automationteststore.com'**.
 
-With a single fixtures (index.ts) file extends test (from playwright-bdd) to inject all Page Objects and flows into test steps.
+**Runner & style:** The suite uses Playwright Test (TypeScript) with Gherkin BDD via playwright-bdd. Feature files are converted to Playwright specs with bddgen, so we keep BDD readability and still get Playwright’s fixtures, tracing, retries, reporters and projects.
+
+**Fixtures | Fixture file:** With a single fixtures (index.ts) file extends test (from playwright-bdd) to inject all Page Objects and flows into test steps.
+
+**Page Objects & Flows:**
+
+- POMs per screen (Shop, Cart, Checkout) hold selectors and action methods interacting with UI.
+- A flow layer (e.g. PurchaseFlow) consolidates multi-page tasks like “purchase product” to keep steps declarative.
+
+**Locators & Assertions:**
+
+- Prefer role (getByRole) or testId locators for robustness. However, due to limitations with e-Commerce website & inability to add testId attributes, had to fall back to class token CSS (.btn.btn-sm...).
+- Assertions use Playwright’s expect with clear in-built assertion messages.
+- Helper methods sometimes assert internally (e.g., toHaveCount(1)).
+
+**Config & runtime:**
+
+- playwright.config.ts wires defineBddConfig({ features, steps }) and uses baseURL so page.goto('/path') resolves cleanly.
+- Scripts added to abstract complexity around commands such as '**npm run bddgen && playwright tes**t'.
 
 ---
 
@@ -33,7 +51,7 @@ With a single fixtures (index.ts) file extends test (from playwright-bdd) to inj
   - support/              # Support code that runs before any steps (Hooks)
 - fixtures/
   - pages/                # POMs (ShopPage, CartPage, CheckoutPage…) + fixture file exposing POMs/flows
-  - flows/                # Business flows (PurchaseFlow) - Consolidates multi-page tasks to keep steps declarative
+  - flows/                # Business flows (PurchaseFlow)
 - test-data/              # Centralised test data to be used across environments & tests
 - package.json            # Source of truth for all project dependencies. Contains all script commands to run tests
 - playwright.config.ts    # baseURL, reporter, BDD wiring (Wires Gherkin files into Playwright Test runner)
