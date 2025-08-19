@@ -2,7 +2,9 @@
 
 This is Ian Kim's Complete App Automation Suite.
 
-The suite uses Playwright Test with TypeScript, a Page Object Model (POM), reusable flow/services (e.g. purchase flow) and BDD feature files executed via playwright-bdd.
+The suite uses Playwright Test (TypeScript) with Gherkin BDD via playwright-bdd. Feature files are converted to Playwright specs with bddgen, so we keep BDD readability and still get Playwright’s fixtures, tracing, retries, reporters and projects.
+
+With a single fixtures (index.ts) file extends test (from playwright-bdd) to inject all Page Objects and flows into test steps.
 
 ---
 
@@ -25,16 +27,16 @@ The suite uses Playwright Test with TypeScript, a Page Object Model (POM), reusa
 
 ### Project Structure:
 
-features/
-  *.feature             # All feature files are located here
-  steps/                # BDD declarative steps (Given/When/Then)
-  support/              # Support code that runs before any steps (Hooks)
-fixtures/
-  pages/                # POMs (ShopPage, CartPage, CheckoutPage…) + fixture exposing POMs/flows
-  flows/                # Business flows (PurchaseFlow)
-test-data/              # Centralised test data to be used across environments & tests
-package.json            # Source of truth for all project dependencies. Contains all script commands to run tests
-playwright.config.ts    # baseURL, reporter, BDD wiring
+- features/
+  - *.feature             # All feature files are located here
+  - steps/                # BDD declarative steps (Given/When/Then)
+  - support/              # Support code that runs before any steps (Hooks)
+- fixtures/
+  - pages/                # POMs (ShopPage, CartPage, CheckoutPage…) + fixture file exposing POMs/flows
+  - flows/                # Business flows (PurchaseFlow) - Consolidates multi-page tasks to keep steps declarative
+- test-data/              # Centralised test data to be used across environments & tests
+- package.json            # Source of truth for all project dependencies. Contains all script commands to run tests
+- playwright.config.ts    # baseURL, reporter, BDD wiring (Wires Gherkin files into Playwright Test runner)
 
 ---
 
