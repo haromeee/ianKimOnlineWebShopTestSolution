@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "clean:bdd": "rimraf .features-gen",
     "bddgen": "bddgen",
     "test:bdd": "npm run bddgen && playwright test",
     "test:bdd:debug": "npm run bddgen && playwright test --debug",
